@@ -1,0 +1,81 @@
+---
+title: "Coursera Reproducible Research Peer Assessment 1"
+author: "Robert Turner"
+date: "December 17, 2015"
+output: html_document
+---
+
+This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
+
+As part of this assignment, the following processing steps and analyses will be performed:
+
+* Load and preprocess the 'raw' activity.csv file. 
+* Calculate the mean total number of steps taken per day (ignoring NAs). 
+* Calculate and plot the average daily activity pattern. 
+* Approximate synthetic 'step' values to replace NA values. 
+* Investigate whether there are differences in activity patterns between weekdays and weekends.  
+
+***
+### Load and preprocess the 'raw' activity.csv file
+```{r}
+library(lubridate)
+activity_data <- read.csv("activity.csv")
+
+# Convert the dates into POSIX class objects using lubridate
+activity_data$date  <- ymd(activity_data$date)
+
+# Convert the intervals into interval class objects using lubridate
+#activity_data$interval  <- as.interval(activity_data$interval, activity_data$date)
+head(activity_data)
+```
+
+***
+### Calculate the mean total number of steps taken per day (ignoring NAs)
+```{r}
+# Create a vector of POSIX days
+days <- ymd(seq(from=as.Date('2012-10-01'), to=as.Date("2012-11-30"),by='days' ))
+
+avg_per_day = numeric()
+
+for (x in 1:(length(days))) { avg_per_day[x] = (mean(activity_data$steps[activity_data$date == days[x]], rm.na = T)) }
+
+# Create a data frame with the intervals and average steps taken
+avg_daily_activity  <- data.frame(date = days, average_steps = avg_per_day)
+
+# Plot the average steps using the base package
+barplot(avg_daily_activity$average_steps,
+        names.arg = avg_daily_activity$date,
+        xlab = "Date",
+        ylab = "Average Number of Steps")
+```
+
+***
+### Calculate and plot the average daily activity pattern
+```{r}
+# Calculate averages by interval and assign them to a temporary vector
+avg_per_interval <- numeric()
+
+for (x in 1:472) { avg_per_interval[x] = (mean(activity_data$steps[activity_data$interval == ((x-1)*5)], na.rm = T)) }
+
+# Create a data frame with the intervals and average steps taken
+avg_interval_activity  <- data.frame(interval = seq(0,2355, by = 5), average_steps = avg_per_interval)
+
+# Plot the average steps using the base package
+plot(avg_interval_activity$interval, 
+     avg_interval_activity$average_steps, 
+     type = "l", xlim = c(0, 2400),
+     xlab = "Time of Day using 24h Clock",
+     ylab = "Average Number of Steps")
+```
+
+***
+### Approximate synthetic 'step' values to replace NA values
+```{r}
+# Nothing to see here...
+```
+
+***
+### Investigate whether there are differences in activity patterns between weekdays and weekends
+```{r}
+# Nothing to see here...
+```
