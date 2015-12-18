@@ -24,9 +24,8 @@ activity_data <- read.csv("activity.csv")
 # Convert the dates into POSIX class objects using lubridate
 activity_data$date  <- ymd(activity_data$date)
 
-# Convert the intervals into interval class objects using lubridate
-#activity_data$interval  <- as.interval(activity_data$interval, activity_data$date)
 head(activity_data)
+summary(activity_data)
 ```
 
 ***
@@ -35,19 +34,30 @@ head(activity_data)
 # Create a vector of POSIX days
 days <- ymd(seq(from=as.Date('2012-10-01'), to=as.Date("2012-11-30"),by='days' ))
 
+total_per_day = integer()
 avg_per_day = numeric()
+
+for (x in 1:(length(days))) { total_per_day[x] = (sum(activity_data$steps[activity_data$date == days[x]], rm.na = T)) }
 
 for (x in 1:(length(days))) { avg_per_day[x] = (mean(activity_data$steps[activity_data$date == days[x]], rm.na = T)) }
 
 # Create a data frame with the intervals and average steps taken
-avg_daily_activity  <- data.frame(date = days, average_steps = avg_per_day)
+avg_daily_activity  <- data.frame(date = days, average_steps = avg_per_day, total_steps = total_per_day)
 
 # Plot the average steps using the base package
 barplot(avg_daily_activity$average_steps,
         names.arg = avg_daily_activity$date,
         xlab = "Date",
         ylab = "Average Number of Steps")
+
+# Plot a histogram of the total steps per day
+hist(total_per_day)
+
+# Report the mean and median of total steps per day
+total_mean <- mean(total_per_day)
+total_median <- median(total_per_day)
 ```
+The mean of the total steps taken per day is ...
 
 ***
 ### Calculate and plot the average daily activity pattern
