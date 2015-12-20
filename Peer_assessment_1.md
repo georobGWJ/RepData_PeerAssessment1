@@ -1,11 +1,6 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-author: "Robert Turner"
-date: "December 20, 2015"
-output: 
-    html_document:
-        keep_md: true
----
+# Reproducible Research: Peer Assessment 1
+Robert Turner  
+December 20, 2015  
 
 This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
@@ -19,7 +14,8 @@ As part of this assignment, the following processing steps and analyses will be 
 
 ***
 ### Load and preprocess the 'raw' activity.csv file
-```{r}
+
+```r
 library(lubridate)
 activity_data <- read.csv("activity.csv")
 
@@ -27,12 +23,37 @@ activity_data <- read.csv("activity.csv")
 activity_data$date  <- ymd(activity_data$date)
 
 head(activity_data)
+```
+
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
+
+```r
 summary(activity_data)
+```
+
+```
+##      steps             date               interval     
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:2012-10-16   1st Qu.: 588.8  
+##  Median :  0.00   Median :2012-10-31   Median :1177.5  
+##  Mean   : 37.38   Mean   :2012-10-31   Mean   :1177.5  
+##  3rd Qu.: 12.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2  
+##  Max.   :806.00   Max.   :2012-11-30   Max.   :2355.0  
+##  NA's   :2304
 ```
 
 ***
 ### Calculate the mean total number of steps taken per day (ignoring NAs)
-```{r}
+
+```r
 # Create a vector of POSIX days
 days <- ymd(seq(from=as.Date('2012-10-01'), to=as.Date("2012-11-30"), by='days' ))
 
@@ -52,24 +73,33 @@ barplot(avg_daily_activity$average_steps,
         main = "Barplot of the Average Number of Steps by Day",
         xlab = "Date",
         ylab = "Average Number of Steps")
+```
 
+![](Peer_assessment_1_files/figure-html/unnamed-chunk-2-1.png) 
+
+```r
 # Plot a histogram of the total steps per day
 hist(total_per_day, 
      main = "Histogram of the Total Number of Steps per Day",
      xlab = "Total Number of Steps",
      ylab = "Frequency (%)",
      breaks = 10, col = "blue")
+```
 
+![](Peer_assessment_1_files/figure-html/unnamed-chunk-2-2.png) 
+
+```r
 # Report the mean and median of total steps per day
 total_mean <- mean(total_per_day, na.rm = TRUE)
 total_median <- median(total_per_day, na.rm = TRUE)
 ```
-The **mean** of the total steps taken per day is `r total_mean`.  
-The **median** of the total steps taken per day is `r total_median`.  
+The **mean** of the total steps taken per day is 1.0767189\times 10^{4}.  
+The **median** of the total steps taken per day is 10766.  
 
 ***
 ### Calculate and plot the average daily activity pattern
-```{r}
+
+```r
 # Calculate averages by interval and assign them to a temporary vector
 avg_per_interval <- numeric()
 
@@ -86,9 +116,12 @@ plot(avg_interval_activity$interval,
      ylab = "Average Number of Steps")
 ```
 
+![](Peer_assessment_1_files/figure-html/unnamed-chunk-3-1.png) 
+
 ***
 ### Approximate synthetic 'step' values to replace NA values
-```{r}
+
+```r
 # Replace the NAs with representative values
 # This is done by searching for the next interval that has
 # data and assigning that value to the NA.
@@ -136,9 +169,20 @@ for (x in 1:nrows) {
 }
 
 activity_data$smoothed_steps <- smoothed_steps
-# head(activity_data)
+head(activity_data)
+```
 
-# Calculate the total steps per day using the updated data
+```
+##   steps       date interval smoothed_steps
+## 1    NA 2012-10-01        0              0
+## 2    NA 2012-10-01        5              0
+## 3    NA 2012-10-01       10              0
+## 4    NA 2012-10-01       15              0
+## 5    NA 2012-10-01       20              0
+## 6    NA 2012-10-01       25              0
+```
+
+```r
 total_per_day_smoothed = integer()
 
 for (x in 1:(length(days))) { total_per_day_smoothed[x] = (sum(activity_data$smoothed_steps[activity_data$date == days[x]], rm.na = T)) }
@@ -149,19 +193,21 @@ hist(total_per_day_smoothed,
      xlab = "Total Number of Steps",
      ylab = "Frequency (%)",
      breaks = 10, col = "turquoise")
+```
 
+![](Peer_assessment_1_files/figure-html/unnamed-chunk-4-1.png) 
+
+```r
 # Report the mean and median of total steps per day
 total_mean_smoothed <- mean(total_per_day_smoothed)
 total_median_smoothed <- median(total_per_day_smoothed)
 ```
-The **mean** of the smoothed total steps taken per day is `r total_mean_smoothed`.  
-The **median** of the smoothed total steps taken per day is `r total_median_smoothed`. 
+The **mean** of the smoothed total steps taken per day is 9355.2295082.  
+The **median** of the smoothed total steps taken per day is 1.0396\times 10^{4}. 
 
 ***
 ### Investigate whether there are differences in activity patterns between weekdays and weekends
-```{r}
 
-df$day.of.week <- format(df$datestamp, "%A")
-fridays <- df[df$day.of.week == "Friday",]
+```r
 # Nothing to see here...
 ```
