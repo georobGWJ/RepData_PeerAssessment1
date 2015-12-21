@@ -119,15 +119,9 @@ plot(avg_interval_activity$interval,
 ![](Peer_assessment_1_files/figure-html/unnamed-chunk-3-1.png) 
 
 ```r
-print (avg_per_interval[150:170])
+# print (avg_per_interval[150:170])
 ```
-
-```
-##  [1]  69.54717  57.84906  56.15094       NaN       NaN       NaN       NaN
-##  [8]       NaN       NaN       NaN       NaN  73.37736  68.20755 129.43396
-## [15] 157.52830 171.15094 155.39623 177.30189 206.16981 195.92453 179.56604
-```
-.
+The most active interval was 0835.
 
 ***
 ### Approximate synthetic 'step' values to replace NA values
@@ -226,3 +220,4 @@ The **median** of the smoothed total steps taken per day is 1.0396\times 10^{4}.
 
 #head (weekend_avg_per_interval)
 ```
+I procrastinated a bit too much and did not have time to complete this last question.
