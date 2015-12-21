@@ -84,7 +84,10 @@ plot(avg_interval_activity$interval,
      type = "l", xlim = c(0, 2400),
      xlab = "Time of Day using 24h Clock",
      ylab = "Average Number of Steps")
+
+# print (avg_per_interval[150:170])
 ```
+The most active interval was 0835.
 
 ***
 ### Approximate synthetic 'step' values to replace NA values
@@ -160,8 +163,21 @@ The **median** of the smoothed total steps taken per day is `r total_median_smoo
 ***
 ### Investigate whether there are differences in activity patterns between weekdays and weekends
 ```{r}
+# Create a new factor list
+#weekday <- factor()
 
-df$day.of.week <- format(df$datestamp, "%A")
-fridays <- df[df$day.of.week == "Friday",]
-# Nothing to see here...
+#for (x in activity_data$date) { 
+  #weekday[x] = wday(activity_data$date[x], label = T)
+  #}
+
+#activity_data$weekday <- weekday
+
+#head(activity_data)
+# Now create averages for weekdays and weekends
+#weekend_avg_per_interval <- numeric()
+
+#for (x in 1:472) { weekend_avg_per_interval[x] = (mean(activity_data$steps[activity_data$interval == ((x-1)*5) &                         (activity_data$weekday == "Sat" |                           activity_data$weekday == "Sun")], na.rm = T)) }
+
+#head (weekend_avg_per_interval)
 ```
+I procrastinated a bit too much and did not have time to complete this last question.

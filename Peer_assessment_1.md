@@ -118,6 +118,17 @@ plot(avg_interval_activity$interval,
 
 ![](Peer_assessment_1_files/figure-html/unnamed-chunk-3-1.png) 
 
+```r
+print (avg_per_interval[150:170])
+```
+
+```
+##  [1]  69.54717  57.84906  56.15094       NaN       NaN       NaN       NaN
+##  [8]       NaN       NaN       NaN       NaN  73.37736  68.20755 129.43396
+## [15] 157.52830 171.15094 155.39623 177.30189 206.16981 195.92453 179.56604
+```
+.
+
 ***
 ### Approximate synthetic 'step' values to replace NA values
 
@@ -169,20 +180,9 @@ for (x in 1:nrows) {
 }
 
 activity_data$smoothed_steps <- smoothed_steps
-head(activity_data)
-```
+# head(activity_data)
 
-```
-##   steps       date interval smoothed_steps
-## 1    NA 2012-10-01        0              0
-## 2    NA 2012-10-01        5              0
-## 3    NA 2012-10-01       10              0
-## 4    NA 2012-10-01       15              0
-## 5    NA 2012-10-01       20              0
-## 6    NA 2012-10-01       25              0
-```
-
-```r
+# Calculate the total steps per day using the updated data
 total_per_day_smoothed = integer()
 
 for (x in 1:(length(days))) { total_per_day_smoothed[x] = (sum(activity_data$smoothed_steps[activity_data$date == days[x]], rm.na = T)) }
@@ -209,5 +209,20 @@ The **median** of the smoothed total steps taken per day is 1.0396\times 10^{4}.
 ### Investigate whether there are differences in activity patterns between weekdays and weekends
 
 ```r
-# Nothing to see here...
+# Create a new factor list
+#weekday <- factor()
+
+#for (x in activity_data$date) { 
+  #weekday[x] = wday(activity_data$date[x], label = T)
+  #}
+
+#activity_data$weekday <- weekday
+
+#head(activity_data)
+# Now create averages for weekdays and weekends
+#weekend_avg_per_interval <- numeric()
+
+#for (x in 1:472) { weekend_avg_per_interval[x] = (mean(activity_data$steps[activity_data$interval == ((x-1)*5) &                         (activity_data$weekday == "Sat" |                           activity_data$weekday == "Sun")], na.rm = T)) }
+
+#head (weekend_avg_per_interval)
 ```
